@@ -11,30 +11,58 @@
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
+        android:layout_height="55dp"
         android:ems="10"
-        android:inputType="textMultiLine"
-        android:hint="Task´s description"/>
+        android:hint="Task´s description"
+        android:inputType="textMultiLine" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:entries="@array/list_array"/>
+        android:layout_height="50dp" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
 
     <Switch
         android:id="@+id/switchdate"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="50dp"
         android:paddingHorizontal="9dp"
-        android:text="Add due date"
+        android:text="Add due date and time"
         android:textSize="16dp" />
 
-    <CalendarView
-        android:id="@+id/calendar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="304dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
 
+        android:gravity="center_horizontal"
+        android:padding="15dp"
+        android:weightSum="2">
+
+
+        <Button
+            android:id="@+id/datePicker"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_today_black_24dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="date" />
+
+        <Button
+            android:id="@+id/timePicker"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:drawableEnd="@drawable/ic_access_time_black_24dp"
+            android:text="time" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -46,9 +74,12 @@
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:text="@string/add" />
+            android:drawableStart="@drawable/ic_check_black_24dp"
+            android:text="@string/add"
+            android:paddingLeft="160dp"
+            android:paddingRight="160dp"/>
     </LinearLayout>
 
 </LinearLayout>

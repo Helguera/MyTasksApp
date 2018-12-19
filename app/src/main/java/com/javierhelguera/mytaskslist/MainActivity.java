@@ -5,14 +5,23 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,14 +29,18 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
 
+    DBHelper dbhelper = new DBHelper(this);
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
-        setTitle("Universidad");
+        setTitle("My Tasks List");
+
+        /* ----------------------- PARA EL FAB DESPLEGABLE ----------------------- */
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
@@ -54,14 +67,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setColorFilter(Color.WHITE);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        /* ----------------------- PARA LA LISTA DE CHECKBOX ----------------------- */
+
+        ListView listView = (ListView) findViewById(R.id.listview);
+        final List<UserModel> users = new ArrayList<>();
+        users.add(new UserModel(false, "Test"));
+        users.add(new UserModel(false, "Test"));
+        users.add(new UserModel(false, "Test"));
+        users.add(new UserModel(false, "Test"));
+
+
+        final CustomAdapter adapter = new CustomAdapter(this, users);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), addItemActivity.class));
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                UserModel model = users.get(i);
+
+                if (model.isSelected())
+                    model.setSelected(false);
+
+                else
+                    model.setSelected(true);
+
+                users.set(i, model);
+
+                //now update adapter
+                adapter.updateRecords(users);
             }
-        });*/
+        });
+
+        /* ----------------------- PARA LA BASE DE DATOS ----------------------- */
+
+
+
+
+
+
+
+
+
     }
 
 
