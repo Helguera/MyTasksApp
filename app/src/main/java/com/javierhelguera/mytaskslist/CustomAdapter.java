@@ -11,34 +11,27 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by arthonsystechnologiesllp on 10/03/17.
- */
-
 public class CustomAdapter extends BaseAdapter {
 
     Activity activity;
-    List<UserModel> users;
+    List<TaskModel> tasks;
     LayoutInflater inflater;
-
-    //short to create constructer using command+n for mac & Alt+Insert for window
 
 
     public CustomAdapter(Activity activity) {
         this.activity = activity;
     }
 
-    public CustomAdapter(Activity activity, List<UserModel> users) {
+    public CustomAdapter(Activity activity, List<TaskModel> tasks) {
         this.activity   = activity;
-        this.users      = users;
-
+        this.tasks      = tasks;
         inflater        = activity.getLayoutInflater();
     }
 
 
     @Override
     public int getCount() {
-        return users.size();
+        return tasks.size();
     }
 
     @Override
@@ -64,27 +57,31 @@ public class CustomAdapter extends BaseAdapter {
 
             holder.tvUserName = (TextView)view.findViewById(R.id.tv_user_name);
             holder.ivCheckBox = (ImageView) view.findViewById(R.id.iv_check_box);
+            holder.dateHour = (TextView) view.findViewById(R.id.dateHour);
 
             view.setTag(holder);
         }else
             holder = (ViewHolder)view.getTag();
 
-        UserModel model = users.get(i);
+        TaskModel model = tasks.get(i);
 
-        holder.tvUserName.setText(model.getUserName());
+        holder.tvUserName.setText(model.getTaskName());
+        holder.dateHour.setText(model.getDate() + "\n" + model.getHour());
 
-        if (model.isSelected())
-            holder.ivCheckBox.setBackgroundResource(R.drawable.checked);
+
+
+        if (model.isSelected() == 1)
+            holder.ivCheckBox.setBackgroundResource(R.drawable.ic_check_circle_black_24dp);
 
         else
-            holder.ivCheckBox.setBackgroundResource(R.drawable.check);
+            holder.ivCheckBox.setBackgroundResource(R.drawable.ic_radio_button_unchecked_black_24dp);
 
         return view;
 
     }
 
-    public void updateRecords(List<UserModel> users){
-        this.users = users;
+    public void updateRecords(List<TaskModel> tasks){
+        this.tasks = tasks;
 
         notifyDataSetChanged();
     }
@@ -93,6 +90,7 @@ public class CustomAdapter extends BaseAdapter {
 
         TextView tvUserName;
         ImageView ivCheckBox;
+        TextView dateHour;
 
     }
 }

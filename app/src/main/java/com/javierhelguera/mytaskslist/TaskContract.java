@@ -16,6 +16,7 @@ public class TaskContract {
         public static final String DESCRIPTION = "description";
         public static final String DUEDATE = "dueDate";
         public static final String DUETIME = "dueTime";
+        public static final String IS_SELECTED = "isSelected";
 
     }
 

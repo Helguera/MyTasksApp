@@ -9,7 +9,7 @@
 
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/taskField"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:ems="10"
@@ -72,7 +72,7 @@
         android:gravity="center|bottom">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/addTaskButton"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             style="@style/Widget.AppCompat.Button.Colored"

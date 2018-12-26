@@ -7,12 +7,14 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -32,6 +34,15 @@ public class addItemActivity extends AppCompatActivity {
     Switch switchdate;
     Button datePicker;
     Button timePicker;
+    Button addTaskButton;
+    EditText taskNameEdit;
+
+    String date = null;
+    String hour = null;
+
+    int day;
+    int month;
+    int year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +55,18 @@ public class addItemActivity extends AppCompatActivity {
         switchdate = (Switch) findViewById(R.id.switchdate);
         datePicker = (Button) findViewById(R.id.datePicker);
         timePicker = (Button) findViewById(R.id.timePicker);
+        addTaskButton = (Button) findViewById(R.id.addTaskButton);
+        taskNameEdit = (EditText) findViewById(R.id.taskField);
 
         datePicker.animate().alpha(0.0f).setDuration(0);
         timePicker.animate().alpha(0.0f).setDuration(0);
 
         Calendar calendar = Calendar.getInstance();
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        final int month = calendar.get(Calendar.MONTH);
-        final int year = calendar.get(Calendar.YEAR);
+
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
+
 
         /* ----------------------- GENERAR EL DATE PICKER Y EL TIME PICKER ----------------------- */
 
@@ -74,7 +89,9 @@ public class addItemActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
                         datePicker.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                        date = year +"-"+ (monthOfYear+1) +"-"+ dayOfMonth;
                     }
                 }, year, month, day);
 
@@ -90,10 +107,11 @@ public class addItemActivity extends AppCompatActivity {
                     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
                         if (minute<10){
                             timePicker.setText(hourOfDay+":"+"0"+minute);
+                            hour = hourOfDay+":"+"0"+minute;
                         }else{
                             timePicker.setText(hourOfDay+":"+minute);
+                            hour = hourOfDay+":"+minute;
                         }
-
                     }
                 }, 12,00, true);
                 timePickerDialog.show(getFragmentManager(), "Date picker dialog");
@@ -105,6 +123,35 @@ public class addItemActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getLists());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+
+        /* ----------------------- BOTON DE CREAR TASK ----------------------- */
+
+        addTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!taskNameEdit.getText().toString().equals("")){
+                    if (!switchdate.isChecked()){
+                        date = "--";
+                        hour = "--";
+                    }
+                    if (date == null) date = "--";
+                    if (hour == null) hour = "--";
+
+                    TaskModel model = new TaskModel(
+                            spinner.getSelectedItem().toString(),
+                            taskNameEdit.getText().toString(),
+                            date,
+                            hour,
+                            0
+                    );
+                    model.saveTask(addItemActivity.this);
+                    startActivity(new Intent(v.getContext(), MainActivity.class));
+                }else{
+                    Toast.makeText(getApplicationContext(), "Task can not be empty", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
 
     }
 

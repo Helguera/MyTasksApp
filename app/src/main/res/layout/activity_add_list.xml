@@ -31,10 +31,13 @@
 
         <Button
             android:id="@+id/addListButton"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add" />
+            android:layout_height="55dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:drawableStart="@drawable/ic_check_black_24dp"
+            android:text="@string/add"
+            android:paddingLeft="160dp"
+            android:paddingRight="160dp" />
     </LinearLayout>
 
 </LinearLayout>

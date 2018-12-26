@@ -55,11 +55,15 @@ public class addListActivity extends AppCompatActivity {
         SQLiteDatabase db=dbhelper.getReadableDatabase();
 
         try {
-            ContentValues values = new ContentValues();
-            values.put(ListsContract.Column.ID, list);
-            db.insert(ListsContract.TABLE, null, values);
-            listField.setText("");
-            Snackbar.make(findViewById(R.id.tempView), "List "+list+" added", Snackbar.LENGTH_LONG).show();
+            if (!list.equals("")){
+                ContentValues values = new ContentValues();
+                values.put(ListsContract.Column.ID, list);
+                db.insert(ListsContract.TABLE, null, values);
+                listField.setText("");
+                Snackbar.make(findViewById(R.id.tempView), "List "+list+" added", Snackbar.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(),"A list name is required",Toast.LENGTH_LONG).show();
+            }
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"ERROR loading lists",Toast.LENGTH_LONG).show();

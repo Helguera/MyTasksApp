@@ -18,13 +18,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String sql = String.format("CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT, %s TEXT, FOREIGN KEY (%s) references list(%s) )",
+        String sql = String.format("CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT, %s TEXT, %s BOOLEAN CHECK (%s IN (0,1)), FOREIGN KEY (%s) references list(%s) ON DELETE CASCADE)",
                 TaskContract.TABLE,
                 TaskContract.Column.ID,
                 TaskContract.Column.ID_LIST,
                 TaskContract.Column.DESCRIPTION,
                 TaskContract.Column.DUEDATE,
                 TaskContract.Column.DUETIME,
+                TaskContract.Column.IS_SELECTED,
+                TaskContract.Column.IS_SELECTED,
                 TaskContract.Column.ID_LIST,
                 TaskContract.Column.ID_LIST);
 
@@ -41,6 +43,13 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(ListsContract.Column.ID, "Uncategorized");
 
         db.insert(ListsContract.TABLE, null, cv);
+
+        //SOLO PARA DEBUGERAR, NO OLVIDAR QUITARLO
+        db.execSQL("insert into list values (\"Universidad\")");
+        db.execSQL("insert into task(idList, description, dueDate, dueTime, isSelected) values (\"Uncategorized\", \"Prueba de task\", \"2018-10-22\", \"15:40\",0)");
+        db.execSQL("insert into task(idList, description, dueDate, dueTime, isSelected) values (\"Uncategorized\", \"Otra task\", \"2018-10-22\", \"15:40\",0)");
+        db.execSQL("insert into task(idList, description, dueDate, dueTime, isSelected) values (\"Universidad\", \"Task de Universidad\", \"2018-10-22\", \"15:40\",1)");
+
     }
 
     @Override
@@ -48,6 +57,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TaskContract.TABLE);
         db.execSQL("DROP TABLE IF EXISTS "+ListsContract.TABLE);
         onCreate(db);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db){
+        super.onOpen(db);
+        db.execSQL("PRAGMA foreign_keys=ON");
     }
 
 }

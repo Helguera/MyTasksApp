@@ -3,8 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.javierhelguera.mytaskslist.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/clearDone"
         android:orderInCategory="100"
         android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/deleteList"
+        android:orderInCategory="100"
+        android:title="@string/deleteList"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="100"
+        android:title="@string/about"
         app:showAsAction="never" />
 </menu>
